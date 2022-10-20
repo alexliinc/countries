@@ -3,19 +3,42 @@ import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Country } from 'src/app/types/api';
 
+const REGION_OPTIONS = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  searchFilter: String | undefined;
-  countries$: Observable<Country[]> | undefined;  
+  searchFilter?: string;
+  source: Country[] | undefined;
+  regionFilter?: string;
+  regionOptions = REGION_OPTIONS;
 
   constructor(private api:ApiService) { }
 
   ngOnInit(): void {
-    this.countries$ = this.api.getAllCountries();
+    this.api.getAllCountries().subscribe((countries) => {
+      this.source = countries;
+    });
   }
 
+  get countries() {
+    return this.source
+      ? this.source
+          .filter((country) =>
+            this.searchFilter
+              ? country.name
+                  .toLowerCase()
+                  .includes(this.searchFilter.toLowerCase())
+              : country
+          )
+          .filter((country) =>
+            this.regionFilter
+              ? country.region.includes(this.regionFilter)
+              : country
+          )
+      : this.source;
+  }
 }

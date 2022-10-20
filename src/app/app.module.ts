@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DetailComponent } from './pages/detail/detail.component';
 import { CountryCardComponent } from './components/country-card/country-card.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { CountryCardComponent } from './components/country-card/country-card.com
     HomeComponent,
     DetailComponent,
     CountryCardComponent,
+    DropdownComponent,
   ],
   imports: [
     BrowserModule,
